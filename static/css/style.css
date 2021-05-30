@@ -1,0 +1,172 @@
+#navbar {
+    height: 100px;
+    width: 100%;
+    background-color:navy;
+    color: silver;
+    padding-left: 20px;
+}
+
+.page-header {
+    position: relative;
+}
+
+.page-header p {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Dropdown Menu Styling */
+#dropdown-menu {
+    position: relative;
+    top: -75px;
+    right: 15px;
+    float: right;
+}
+
+#dropdown-menu p {
+    width: 35px;
+    height: 5px;
+    background-color:silver;
+    margin: 8px;
+}
+
+#dropdown-content {
+    display: none;
+    background-color: silver;
+    height: 80px;
+    width: 100px;
+    margin-right: 20px;
+}
+
+#dropdown-content a {
+    color: black;
+    display: inline-block;
+    padding: 5px;
+
+}
+
+#dropdown-menu:hover {
+    cursor: pointer;
+}
+
+#dropdown-menu:hover #dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Overview Container */
+#overview-container {
+    background-image: url("/static/images/14791130_G.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-position-y: -500px;
+    height: 500px;
+
+}
+
+#overview-container p {
+    width: 1000px;
+    height: auto;
+    font-size: 25px;
+    color:gold;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 25px;
+}
+
+#input-form {
+    background-color: grey;
+    height: 50px;
+    padding-top: 12px;
+    padding-left: 20px;
+}
+
+#input-form label {
+    font-weight: bold;
+}
+
+.visual-wrapper {
+    height: 500px;
+    width: auto;
+}
+
+/* #david-graph {
+    
+} */
+
+/* #tejas-graph {
+
+} */
+
+#mike-graph {
+    position: relative;
+    top: 10%;
+    left: 5.5%;
+}
+
+#footer {
+    position: relative;
+    bottom: 0px;
+    height: 75px;
+    width: auto;
+    background-color:grey;
+}
+
+#footer div {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Mike's Bubble Graph Styling */
+#toolbar {
+    position: relative;
+    left: 5.5%;
+}
+
+svg {
+    background: rgba(221, 221, 221, 0.767);
+}
+.selected {
+    fill: none;
+}
+  
+.button {
+    min-width: 130px;
+    padding: 4px 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #e0e0e0;
+    text-decoration: none;
+}
+.title {
+    font-family: 'Freshman', sans-serif;
+  }
+.button.active {
+    background: #000;
+    color: #fff;
+}
+
+/* Mike's Bubble Graph Styling End */
+
+#map-container {
+    margin: 5px;
+}
+
+#map {
+    height: 500px;
+    width: 90%;
+    margin: 10px;
+    position: relative;
+    top: 10%;
+    left: 5%;
+}
+
+
+
+
