@@ -154,7 +154,7 @@ d3.csv("./static/data/2020_season_stats_con.csv", function(data){
     toolTip.show(data, this);
     })
 
-.on("mouseout", function (data, index) {
+  .on("mouseout", function (data, index) {
     toolTip.hide(data);
 });
 
@@ -364,13 +364,13 @@ d3.json(link, function (data) {
     // Call on each feature
     onEachFeature: function (feature, layer) {
       if (feature.properties.Team === "Los Angeles Rams / Chargers" || feature.properties.Team === "New York Jets / Giants") {
-        layer.bindPopup("<h2>" + feature.properties.Team + "</h2> <hr> <h3> Stadium: " +
-          feature.properties.Stadium + "</h3> <h3> Conference: " + feature.properties.Conference + "</h3>" +
+        layer.bindPopup("<h3>" + feature.properties.Team + "</h3> <hr> <h4> Stadium: " +
+          feature.properties.Stadium + "</h4> <h4> Conference: " + feature.properties.Conference + "</h4>" +
           `<img src=${getImage(feature.properties.Team)[0]} width='100px' />` + `<img src=${getImage(feature.properties.Team)[1]} width='100px' />`);
       }
       else {
-        layer.bindPopup("<h2>" + feature.properties.Team + "</h2> <hr> <h3> Stadium: " +
-          feature.properties.Stadium + "</h3> <h3> Conference: " + feature.properties.Conference + "</h3>" +
+        layer.bindPopup("<h3>" + feature.properties.Team + "</h3> <hr> <h4> Stadium: " +
+          feature.properties.Stadium + "</h4> <h4> Conference: " + feature.properties.Conference + "</h4>" +
           `<img src=${getImage(feature.properties.Team)} width='100px' />`);
       }
     }
