@@ -35,7 +35,7 @@ var baseMaps = {
 var myMap = L.map("map", {
     center: [37.09, -95.71],
     zoom: 5,
-    layers: [streetmap, darkmap]
+    layers: [streetmap]
 });
 // Create a function to add images to the popup icons
 function getImage(teamName) {
@@ -116,7 +116,7 @@ L.control.layers(baseMaps).addTo(myMap);
   var link = "./static/data/stadiums.geojson";
 
   // Grabbing our GeoJSON data..
-  d3.json(link).then(function (data) {
+  d3.json(link, function (data) {
   // Creating a geoJSON layer with the retrieved data
     L.geoJson(data, {
 

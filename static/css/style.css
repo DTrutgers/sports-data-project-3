@@ -1,58 +1,29 @@
-#navbar {
-    height: 100px;
-    width: 100%;
-    background-color:navy;
-    color: silver;
-    padding-left: 20px;
+/* Navbar Styling */
+.navbar {
+    height: 110px;
+    background-color: navy;
 }
 
-.page-header {
+.navbar a {
     position: relative;
+    left: 50px;
+    color:silver;
+    font-size: 25px;
+    padding: 15px;
 }
 
-.page-header p {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-/* Dropdown Menu Styling */
-#dropdown-menu {
-    position: relative;
-    top: -75px;
-    right: 15px;
-    float: right;
-}
-
-#dropdown-menu p {
-    width: 35px;
-    height: 5px;
-    background-color:silver;
-    margin: 8px;
-}
-
-#dropdown-content {
-    display: none;
-    background-color: silver;
-    height: 80px;
-    width: 100px;
-    margin-right: 20px;
-}
-
-#dropdown-content a {
+.navbar a:hover {
+    background-color: lightgrey;
     color: black;
-    display: inline-block;
-    padding: 5px;
-
 }
 
-#dropdown-menu:hover {
-    cursor: pointer;
+.navbar img {
+    height: 70px;
+    width: auto;
+    position: absolute;
+    right: 50px;
 }
 
-#dropdown-menu:hover #dropdown-content {
-    display: flex;
-    flex-direction: column;
-}
 
 
 /* Overview Container */
@@ -97,14 +68,11 @@
     
 } */
 
-/* #tejas-graph {
+#tejas-graph {
+    height: 500px;
+    width: auto;
+    padding: 20px;
 
-} */
-
-#mike-graph {
-    position: relative;
-    top: 10%;
-    left: 5.5%;
 }
 
 #footer {
@@ -113,6 +81,7 @@
     height: 75px;
     width: auto;
     background-color:grey;
+    margin-top: 50px;
 }
 
 #footer div {
@@ -123,6 +92,14 @@
 }
 
 /* Mike's Bubble Graph Styling */
+
+#mike-graph {
+    position: relative;
+    width: 100%;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
 #toolbar {
     position: relative;
     left: 5.5%;
@@ -154,12 +131,8 @@ svg {
 
 /* Mike's Bubble Graph Styling End */
 
-#map-container {
-    margin: 5px;
-}
-
 #map {
-    height: 500px;
+    height: 980px;
     width: 90%;
     margin: 10px;
     position: relative;

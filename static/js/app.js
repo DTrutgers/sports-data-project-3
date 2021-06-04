@@ -1,7 +1,25 @@
+// Bar Graph
+d3.json("./static/data/2020_season_stats.json", function(data){
+    console.log(data)
+
+    var team = data[1].TeamName;
+    var pointsFor = data[1].Score/16;
+    var pointsAgainst;
+    var touchdowns = data[1].Touchdowns;
+    var totRec;
+    var totRush;
+    var fumbles;
+
+    console.log(team);
+    console.log(pointsFor);
+    console.log(touchdowns);
+      
+});
+
 // append team names to HTML dropdown option
 
 d3.json("./static/data/standings.json", function(data){
-    console.log(data)
+    // console.log(data)
 
     for (var i =0; i<data.length; i++) {
         var dropdownOption = d3.select("select");
@@ -17,8 +35,14 @@ d3.select("select").on("change", updateVisuals)
 
 
 function updateVisuals() {
-    console.log("it worked for now...")
+    console.log("it worked for now...");
+    var team = d3.select("select").property("value")
+    console.log(team);
 };
+
+// Diverging Bar graph for team statistics
+
+// End Diverging Bar Graph
 
 
 
@@ -27,7 +51,7 @@ function updateVisuals() {
 
 
 
-var w = 1600, h = 500;
+var w = 1777, h = 500;
     
 var radius = 25;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -237,267 +261,731 @@ d3.csv("./static/data/2020_season_stats_con.csv", function(data){
 // Mike Tyburczy Bubble Graph - End
 
 
+// Tejas Patel - Bar Race Chart
+d3.json("./static/data/NFLscores.json", function(data){
 
-// Harry Bonsu NFL Team Map - Start
-
-// Create base layers
-
-// Streetmap Layer
-var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    tileSize: 512,
-    maxZoom: 18,
-    zoomOffset: -1,
-    id: "mapbox/streets-v11",
-    accessToken: API_KEY
-});
-
-var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    maxZoom: 18,
-    id: "dark-v10",
-    accessToken: API_KEY
-});
-var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-        maxZoom: 18,
-        id: "satellite-v9",
-        accessToken: API_KEY
-    });
-
-
-// Create a baseMaps object
-var baseMaps = {
-    "Street Map": streetmap,
-    "Dark Map": darkmap,
-    "Satelite Map": satellite
-};
-// Define a map object
-var myMap = L.map("map", {
-    center: [37.09, -95.71],
-    zoom: 4.4999,
-    layers: [streetmap, darkmap]
-});
-// Create a function to add images to the popup icons
-function getImage(teamName) {
-  if (teamName === "Arizona Cardinals") {
-    return "static/images/ArizonaCardinals.gif"
-  } else if (teamName === "Atlanta Falcons") {
-    return "static/images/AtlantaFalcons.gif"
-  } else if (teamName === "Baltimore Ravens") {
-    return "static/images/BaltimoreRavens.gif"
-  } else if (teamName === "Buffalo Bills") {
-    return "static/images/BuffaloBills.gif"
-  } else if (teamName === "Carolina Panthers") {
-    return "static/images/CarolinaPanthers.gif"
-  } else if (teamName === "Cincinnati Bengals") {
-    return "static/images/CincinnatiBengals.gif"
-  } else if (teamName === "Chicago Bears") {
-    return "static/images/ChicagoBears.gif"
-  } else if (teamName === "Cleveland Browns") {
-    return "static/images/ClevelandBrowns.gif"
-  } else if (teamName === "Dallas Cowboys") {
-    return "static/images/DallasCowboys.gif"
-  } else if (teamName === "Denver Broncos") {
-    return "static/images/DenverBroncos.gif"
-  } else if (teamName === "Detroit Lions") {
-    return "static/images/DetroitLions.gif"
-  } else if (teamName === "Green Bay Packers") {
-    return "static/images/GreenBayPackers.gif"
-  } else if (teamName === "Houston Texans") {
-    return "static/images/HoustonTexans.gif"
-  } else if (teamName === "Indianapolis Colts") {
-    return "static/images/IndianapolisColts.gif"
-  } else if (teamName === "Jacksonville Jaguars") {
-    return "static/images/JacksonvilleJaguars.gif"
-  } else if (teamName === "Kansas City Chiefs") {
-    return "static/images/KansasCityChiefs.gif"
-  } else if (teamName === "Las Vegas Raiders") {
-    return "static/images/LasVegasRaiders.gif"
-  } else if (teamName === "Los Angeles Rams / Chargers") {
-    return ["static/images/LosAngelesRams.gif", "static/images/LosAngelesChargers.gif"]
-  } else if (teamName === "Los Angeles Chargers") {
-    return "static/images/LosAngelesChargers.gif"
-  } else if (teamName === "Miami Dolphins") {
-    return "static/images/MiamiDolphins.gif"
-  } else if (teamName === "Minnesota Vikings") {
-    return "static/images/MinnesotaVikings.gif"
-  } else if (teamName === "New England Patriots") {
-    return "static/images/NewEnglandPatriots.gif"
-  } else if (teamName === "New Orleans Saints") {
-    return "static/images/NewOrleansSaints.gif"
-  } else if (teamName === "New York Giants") {
-    return "static/images/NewYorkGiants.gif"
-  } else if (teamName === "New York Jets / Giants") {
-    return ["static/images/NewYorkJets.gif", "static/images/NewYorkGiants.gif"]
-  } else if (teamName === "Philadelphia Eagles") {
-    return "static/images/PhiladelphiaEagles.gif"
-  } else if (teamName === "Pittsburgh Steelers") {
-    return "static/images/PittsburghSteelers.gif"
-  } else if (teamName === "San Francisco 49ers") {
-    return "static/images/SanFrancisco49ers.gif"
-  } else if (teamName === "Seattle Seahawks") {
-    return "static/images/SeattleSeahawks.gif"
-  } else if (teamName === "Tampa Bay Buccaneers") {
-    return "static/images/TampaBayBuccaneers.gif"
-  } else if (teamName === "Tennessee Titans") {
-    return "static/images/TennesseeTitans.gif"
-  } else if (teamName === "Washington Football Team") {
-    return "static/images/WashingtonFootballTeam.gif"
-  }
-  else {
-    return "static/images/NationalFootballLeague.gif"
-  }
-};
-// Pass our map layers into our layer control
-// Add the layer control to the map
-L.control.layers(baseMaps).addTo(myMap);
-  
-  // Use this link to get the geojson data.
-  var link = "static/data/stadiums.geojson";
-
-  // Grabbing our GeoJSON data..
-d3.json(link, function (data) {
-  // Creating a geoJSON layer with the retrieved data
-  L.geoJson(data, {
-
-    // Call on each feature
-    onEachFeature: function (feature, layer) {
-      if (feature.properties.Team === "Los Angeles Rams / Chargers" || feature.properties.Team === "New York Jets / Giants") {
-        layer.bindPopup("<h3>" + feature.properties.Team + "</h3> <hr> <h4> Stadium: " +
-          feature.properties.Stadium + "</h4> <h4> Conference: " + feature.properties.Conference + "</h4>" +
-          `<img src=${getImage(feature.properties.Team)[0]} width='100px' />` + `<img src=${getImage(feature.properties.Team)[1]} width='100px' />`);
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    am4core.globalAdapter.addAll(2)
+    var chart = am4core.create("tejas-graph", am4charts.XYChart);
+    chart.padding(40, 40, 40, 40);
+    chart.numberFormatter.numberFormat = "#,###.";
+    var label = chart.plotContainer.createChild(am4core.Label);
+    label.x = am4core.percent(97);
+    label.y = am4core.percent(95);
+    label.horizontalCenter = "right";
+    label.verticalCenter = "middle";
+    label.dx = -15;
+    label.fontSize = 50;
+    
+    var playButton = chart.plotContainer.createChild(am4core.PlayButton);
+    playButton.x = am4core.percent(97);
+    playButton.y = am4core.percent(95);
+    playButton.dy = -2;
+    playButton.verticalCenter = "middle";
+    playButton.events.on("toggled", function (event) {
+      if (event.target.isActive) {
+        play();
       }
       else {
-        layer.bindPopup("<h3>" + feature.properties.Team + "</h3> <hr> <h4> Stadium: " +
-          feature.properties.Stadium + "</h4> <h4> Conference: " + feature.properties.Conference + "</h4>" +
-          `<img src=${getImage(feature.properties.Team)} width='100px' />`);
+        stop();
+      }
+    })
+    
+    var stepDuration = 5000;
+    
+    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.dataFields.category = "team";
+    categoryAxis.renderer.minGridDistance = 1;
+    categoryAxis.renderer.inversed = true;
+    categoryAxis.renderer.grid.template.disabled = false;
+    
+    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    valueAxis.min = 0;
+    // valueAxis.max = 16;
+    valueAxis.rangeChangeEasing = am4core.ease.linear;
+    valueAxis.rangeChangeDuration = stepDuration*100;
+    valueAxis.extraMax = 1;
+    
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.categoryY = "team";
+    series.dataFields.valueX = "win";
+    series.tooltipText = "{valueX.value}"
+    series.columns.template.strokeOpacity = 0;
+    series.columns.template.column.cornerRadiusBottomRight = 5;
+    series.columns.maxColumns = 1
+    series.columns.template.column.cornerRadiusTopRight = 5;
+    series.interpolationDuration = stepDuration;
+    series.interpolationEasing = am4core.ease.linear;
+    var labelBullet = series.bullets.push(new am4charts.LabelBullet())
+    labelBullet.label.horizontalCenter = "right";
+    labelBullet.label.text = "{values.valueX.workingValue}";
+    labelBullet.label.textAlign = "end";
+    labelBullet.label.dx = -10;
+    labelBullet.label.maxColumns = 1;
+    chart.zoomOutButton.disabled = true;
+    
+    // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+    series.columns.template.adapter.add("fill", function (fill, target) {
+      return chart.colors.getIndex(target.dataItem.index);
+    });
+    
+    var week = 1;
+    label.text = week.toString();
+    
+    var interval;
+    
+    function play() {
+      interval = setInterval(function () {
+        nextweek();
+      }, stepDuration)
+      nextweek();
+    }
+    
+    function stop() {
+      if (interval) {
+        clearInterval(interval);
       }
     }
-  }).addTo(myMap);
-});
-
-// Harry Bonsu NFL Team Map - End
-
-
-// d3.json("team-schedule.json").then(function(data){
-//     console.log(data)
-// });
-
-
-// Bar Graph
-// d3.json("2020_season_stats.json").then(function(data){
-//     console.log(data)
-
-//     var team = data[1].TeamName;
-//     var pointsFor = data[1].Score/16;
-//     var pointsAgainst;
-//     var touchdowns = data[1].Touchdowns;
-//     var totRec;
-//     var totRush;
-//     var fumbles;
-
-//     console.log(team);
-//     console.log(pointsFor);
-//     console.log(touchdowns);
-      
-// });
-
-// // Line Graph
-
-// d3.json("./static/data/NFLscores.json").then(function(data){
-//     console.log(data)
-
-//     // Selected Team
-//     var teamScore = [];
-//     var AwayScoreQuarter1 = [];
-//     var AwayScoreQuarter2 = [];
-//     var AwayScoreQuarter3 = [];
-//     var AwayScoreQuarter4 = [];
-//     var HomeScoreQuarter1 = [];
-//     var HomeScoreQuarter2 = [];
-//     var HomeScoreQuarter3 = [];
-//     var HomeScoreQuarter4 = [];
-
-//     //Opponent
-//     var oppScore = [];
-//     var oppHomeScoreQuarter1 = [];
-//     var oppHomeScoreQuarter2 = [];
-//     var oppHomeScoreQuarter3 = [];
-//     var oppHomeScoreQuarter4 = [];
-//     var oppAwayScoreQuarter1 = [];
-//     var oppAwayScoreQuarter2 = [];
-//     var oppAwayScoreQuarter3 = [];
-//     var oppAwayScoreQuarter4 = [];
-
-
-//     for (var i = 0; i<data.length; i++) {
-//         if (data[i].AwayTeam === "HOU") {
-//             teamScore.push(data[i].AwayScore);
-//             oppScore.push(data[i].HomeScore);
-//             AwayScoreQuarter1.push(data[i].AwayScoreQuarter1);
-//             AwayScoreQuarter2.push(data[i].AwayScoreQuarter2);
-//             AwayScoreQuarter3.push(data[i].AwayScoreQuarter3);
-//             AwayScoreQuarter4.push(data[i].AwayScoreQuarter4);
-//             oppHomeScoreQuarter1.push(data[i].HomeScoreQuarter1);
-//             oppHomeScoreQuarter2.push(data[i].HomeScoreQuarter2);
-//             oppHomeScoreQuarter3.push(data[i].HomeScoreQuarter3);
-//             oppHomeScoreQuarter4.push(data[i].HomeScoreQuarter4);
-
-//         } else if (data[i].HomeTeam === "HOU") {
-//             teamScore.push(data[i].HomeScore);
-//             oppScore.push(data[i].AwayScore);
-//             HomeScoreQuarter1.push(data[i].HomeScoreQuarter1);
-//             HomeScoreQuarter2.push(data[i].HomeScoreQuarter2);
-//             HomeScoreQuarter3.push(data[i].HomeScoreQuarter3);
-//             HomeScoreQuarter4.push(data[i].HomeScoreQuarter4);
-//             oppAwayScoreQuarter1.push(data[i].AwayScoreQuarter1);
-//             oppAwayScoreQuarter2.push(data[i].AwayScoreQuarter2);
-//             oppAwayScoreQuarter3.push(data[i].AwayScoreQuarter3);
-//             oppAwayScoreQuarter4.push(data[i].AwayScoreQuarter4);
-//         }
-//     }
-
-//     // Selected Team - print
-//     console.log(teamScore);
-//     console.log(AwayScoreQuarter1);
-//     console.log(AwayScoreQuarter2);
-//     console.log(AwayScoreQuarter3);
-//     console.log(AwayScoreQuarter4);
-//     console.log(HomeScoreQuarter1);
-//     console.log(HomeScoreQuarter2);
-//     console.log(HomeScoreQuarter3);
-//     console.log(HomeScoreQuarter4);
     
+    function nextweek() {
+      week++
+    
+      if (week > 17) {
+        week = 1;
+      }
+    
+      var newData = allData[week];
+      var itemsWithNonZero = 0;
+      for (var i = 0; i < chart.data.length; i++) {
+        chart.data[i].win = newData[i].win;
+        if (chart.data[i].win > 0) {
+          itemsWithNonZero++;
+    
+        }
+      }
+    
+      if (itemsWithNonZero > 25) {
+        itemsWithNonZero = 25
+      }
+    
+      if (week == 1) {
+        series.interpolationDuration = stepDuration / 4;
+        valueAxis.rangeChangeDuration = stepDuration / 4;
+      }
+      else {
+        series.interpolationDuration = stepDuration;
+        valueAxis.rangeChangeDuration = stepDuration;
+      }
+    
+      chart.invalidateRawData();
+      label.text = week.toString();
+    
+      categoryAxis.zoom({ start: 0, end: itemsWithNonZero / categoryAxis.dataItems.length });
+    }
+    
+    
+    categoryAxis.sortBySeries = series;
+    
+    // d3.json("data/NFLscores.json", function (data) {
+      // console.log(data)
+      var allData = {
+        "1": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },
+        ],
+        "2": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "3": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "4": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "5": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "6": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "7": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "8": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "9": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "10": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "11": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "12": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "13": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "14": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "15": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "16": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+        "17": [{ "team": "BUF", win: 0 },
+        { "team": "MIA", win: 0 },
+        { "team": "NE", win: 0 },
+        { "team": "NYJ", win: 0 },
+        { "team": "PIT", win: 0 },
+        { "team": "BAL", win: 0 },
+        { "team": "CLE", win: 0 },
+        { "team": "CIN", win: 0 },
+        { "team": "IND", win: 0 },
+        { "team": "TEN", win: 0 },
+        { "team": "HOU", win: 0 },
+        { "team": "JAX", win: 0 },
+        { "team": "KC", win: 0 },
+        { "team": "LV", win: 0 },
+        { "team": "LAC", win: 0 },
+        { "team": "DEN", win: 0 },
+        { "team": "WAS", win: 0 },
+        { "team": "NYG", win: 0 },
+        { "team": "DAL", win: 0 },
+        { "team": "PHI", win: 0 },
+        { "team": "GB", win: 0 },
+        { "team": "CHI", win: 0 },
+        { "team": "MIN", win: 0 },
+        { "team": "DET", win: 0 },
+        { "team": "NO", win: 0 },
+        { "team": "TB", win: 0 },
+        { "team": "CAR", win: 0 },
+        { "team": "ATL", win: 0 },
+        { "team": "SEA", win: 0 },
+        { "team": "LAR", win: 0 },
+        { "team": "ARI", win: 0 },
+        { "team": "SF", win: 0 },],
+      };
+    
+    
+  // use for loop to loop through week 1 - 17 
+  for (var j = 1; j < 18; j++) {
+    // use the variable j to loop through allData 
+    allData[j].forEach((d) => {
+      // loop through data from NFLscores.json
+      for (var i = 0; i < data.length; i++) {
+        // If team from allData object matches team from NFLscores.json add win to allData
+        if (data[i].AwayTeam == d.team && data[i].Week === j) {
+          // console.log(data[i])
+          // if allData team is the away team
+          if (data[i].AwayScore > data[i].HomeScore) {
+            d.win += 1
+          }
+        } else if (data[i].HomeTeam == d.team && data[i].Week === j) {
+          // console.log(data[i]);
+          // if allData team is the home team
+          if (data[i].HomeScore > data[i].AwayScore) {
+            d.win += 1
+          }
+        }
+      };
 
-//     // Opponent - print
-//     console.log(oppScore);
-//     console.log(oppHomeScoreQuarter1);
-//     console.log(oppHomeScoreQuarter2);
-//     console.log(oppHomeScoreQuarter3);
-//     console.log(oppHomeScoreQuarter4);
-//     console.log(oppAwayScoreQuarter1);
-//     console.log(oppAwayScoreQuarter2);
-//     console.log(oppAwayScoreQuarter3);
-//     console.log(oppAwayScoreQuarter4);
+    });
 
+    // this for loop section will iterate through allData object and add wins for each team by week
+    for (var k = 0; k < 32; k++) {
+      try {
+        if (allData[j][k].team == allData[j - 1][k].team)
+          allData[j][k].win += allData[j - 1][k].win;
 
+      } catch (err) {
+        allData[j][k].win = allData[j][k].win;
+      }
+    }
 
-// });
+  };
 
+  console.log(allData);
 
-// // This was for NFLscores.json
-// for (var i = 0; i<data.length; i++) {
-//     if (data[i].AwayTeam === "HOU") {
-//         weeks.push(data[i].Week);
-//         teamScore.push(data[i].AwayScore);
-//     } else if (data[i].HomeTeam === "HOU") {
-//         weeks.push(data[i].Week);
-//         teamScore.push(data[i].HomeScore);
-//     }
-// }
+  chart.data = JSON.parse(JSON.stringify(allData[week]));
+  categoryAxis.zoom({ start: 0, end: 1 / chart.data.length });
 
-// d3.json("static/data/Stadiums.json").then(function(data){
-//     console.log(data)
-// });
-
+  series.events.on("inited", function () {
+    setTimeout(function () {
+      playButton.isActive = true; // this starts interval
+    }, 2000)
+  })
+    
+});
