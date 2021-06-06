@@ -52,7 +52,59 @@
   <div class="container-fluid visual-wrapper">
     <div class="row">
       <div class="col-md-6">
-        <div id="david-graph">David Thompson</div>
+        <div id="david-graph"></div>
+          <!-- <div id="container" width=500 height="500"></div>
+          <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+          <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-sunburst.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+          <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-exports.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+          <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-ui.min.js?hcode=a0c21fc77e1449cc86299c5faa067dc4"></script>
+          <script type="text/javascript">anychart.onDocumentReady(function () {
+
+          // create data
+          var data = [
+            {name: "NFL", children: [
+              {name: "East", children: [
+            {name: "AFC", children: [
+              {name: "BUF"},
+              {name: "MIA"},
+              {name: "NE"},
+              {name: "NYJ"}
+             ]},
+            {name: "NFC", children: [
+              {name: "WAS"},
+              {name: "NYG"},
+              {name: "DAL"},
+              {name: "PHI"}
+             ]}
+              ]},
+              {name: "West", children: [
+                {name: "AFC"}
+              ]},
+              {name: "West", children: [
+                {name: "AFC"}
+              ]},
+              {name: "West", children: [
+                {name: "AFC"}
+              ]}
+            ]}
+          ];
+      
+          // create a chart and set the data
+          var chart = anychart.sunburst(data, "as-tree");
+      
+          // set the chart title
+          chart.title().useHtml(true);
+          chart.title("Sunburst: David<br><br>" +
+                      "<span style='font-size:12; font-style:italic'>" +
+                      "NFL Score</span>");
+      
+          // set the container id
+          chart.container("container");
+      
+          // initiate drawing the chart
+          chart.draw();
+      });</script> -->
+
       </div>
       <div class="col-md-6">
         <div id="tejas-graph">Tejas Patel</div>
@@ -105,6 +157,9 @@
   <script type="text/javascript" src="./static/data/Stadiums.json"></script>
   <script type="text/javascript" src="./static/data/standings.json"></script>
   <script type="text/csv" src="./static/data/2020_season_stats_con.csv"></script>
+
+  <!-- This is for testing purposes - will be removed before final submission -->
+  <!-- <script type="text/javascript" src="./static/js/bar.js"></script> -->
 
   
 

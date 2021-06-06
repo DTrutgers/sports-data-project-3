@@ -64,12 +64,15 @@
     width: auto;
 }
 
-/* #david-graph {
+#david-graph {
+    height: 500px;
+    width: auto;
+    padding: 20px;
     
-} */
+}
 
 #tejas-graph {
-    height: 500px;
+    height: 540px;
     width: auto;
     padding: 20px;
 
@@ -81,7 +84,7 @@
     height: 75px;
     width: auto;
     background-color:grey;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 #footer div {
@@ -103,6 +106,7 @@
 #toolbar {
     position: relative;
     left: 5.5%;
+    margin-top: 50px;
 }
 
 svg {
@@ -139,6 +143,21 @@ svg {
     top: 10%;
     left: 5%;
 }
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+  }
+  .svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
 
 
