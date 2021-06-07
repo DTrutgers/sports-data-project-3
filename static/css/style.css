@@ -32,8 +32,8 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: -500px;
-    height: 500px;
+    background-position-y: -600px;
+    height: 400px;
 
 }
 
@@ -64,17 +64,38 @@
     width: auto;
 }
 
-#david-graph {
-    height: 500px;
-    width: auto;
-    padding: 20px;
+.visual-wrapper h3 {
+    text-align: center;
+}
+
+#garrett-graph {
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #tejas-graph {
     height: 540px;
     width: auto;
-    padding: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 
 }
 
@@ -84,7 +105,7 @@
     height: 75px;
     width: auto;
     background-color:grey;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
 #footer div {
@@ -106,7 +127,7 @@
 #toolbar {
     position: relative;
     left: 5.5%;
-    margin-top: 50px;
+    padding-top: 100px;
 }
 
 svg {
@@ -138,26 +159,11 @@ svg {
 #map {
     height: 980px;
     width: 90%;
-    margin: 10px;
+    margin-top: 100px;
     position: relative;
     top: 10%;
     left: 5%;
 }
-
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-  }
-  .svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
 
 
 

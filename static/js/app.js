@@ -1,20 +1,5 @@
-// // Bar Graph
-// d3.json("./static/data/2020_season_stats.json", function(data){
-//     console.log(data)
-
-//     var team = data[1].TeamName;
-//     var pointsFor = data[1].Score/16;
-//     var pointsAgainst;
-//     var touchdowns = data[1].Touchdowns;
-//     var totRec;
-//     var totRush;
-//     var fumbles;
-
-//     console.log(team);
-//     console.log(pointsFor);
-//     console.log(touchdowns);
-      
-// });
+// call initial bar graph
+createBar("BUF");
 
 // append team names to HTML dropdown option
 
@@ -34,7 +19,7 @@ d3.json("./static/data/standings.json", function(data){
 
 d3.select("select").on("change",createBar)
 
-
+// This function will send team color to bar graph below
 function getTeamColor(team) {
 
   if (team === "NE" || team === "HOU" || team === "DAL" || team === "LAR") {
@@ -65,482 +50,518 @@ function getTeamColor(team) {
 };
 
 
-
-
-
 // Diverging Bar graph for team statistics
 function createBar(team) {
 
   // clear svg area for updated bar graph from event listener
-  d3.select("#david-graph").select("svg").remove();
+  d3.select("#garrett-graph").select("div").remove();
 
+  var team = team;
 
   // define svg area
   var svgHeight = 500;
   var svgWidth = 800;
 
   var margin = {
-      top: 50,
-      right: 10,
-      bottom: 30,
-      left: 50
+    top: 50,
+    right: 50,
+    bottom: 30,
+    left: 50
   };
 
-  var height = svgHeight-margin.top-margin.bottom;
-  var width = svgWidth-margin.right-margin.left;
+  var height = svgHeight - margin.top - margin.bottom;
+  var width = svgWidth - margin.right - margin.left;
 
   // create svg area for bar graph
-  var svg = d3.select("#david-graph")
-      .append("svg")
-      // .append("div")
-      // .classed("svg-container", true)
-      // .append("svg")
-      // .attr("preserveAspectRatio", "xMinYMin meet")
-      // .classed("svg-content-responsive", true)
-      .attr("width", svgWidth)
-      .attr("height", svgHeight);
+  var svg = d3.select("#garrett-graph")
+    .append("div")
+    .classed("svg-container", true)
+    .append("svg")
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .attr("viewBox", "0 0 800 500")
+    .classed("svg-content", true)
+    // .attr("width", svgWidth)
+    // .attr("height", svgHeight);
 
-  
 
   var chartGroup = svg.append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+  chartGroup.append("text")
+    .attr("x", (width / 2) + (width/4))             
+    .attr("y", 30-margin.top)
+    .classed("title-text", true)
+    .attr("text-anchor", "middle")  
+    .style("font-size", "22px")   
+    .text("League Average");
 
 
   // get data and convert into statistics for bar graph
-  d3.json("./static/data/2020_season_stats.json", function(data) {
-      // console.log(data);
+  d3.json("./static/data/2020_season_stats.json", function (data) {
+    // console.log(data);
 
-      var team = d3.select("select").property("value");
+    var team = d3.select("select").property("value");
 
-      var teamStats = {};
-      var leagueStats = {};
+    var teamStats = {};
+    var leagueStats = {};
 
-      for (var i = 0; i<data.length; i++) {
-          if (data[i].Team === team) {
-              // teamStats["team"] = data[i].TeamName;
-              teamStats["pointsFor"] = data[i].Score/16;
-              teamStats["pointsAgainst"] = data[i].OpponentScore/16;
-              teamStats["touchdowns"] = data[i].Touchdowns;
-              teamStats["recYardsPerGame"] = data[i].PassingYards/16;
-              teamStats["rushYardsPerGame"] = data[i].RushingYards/16;
-              teamStats["fumbles"] = data[i].Fumbles;
-              teamStats["completions"] = data[i].CompletionPercentage;
-              teamStats["firtsDowns"] = data[i].FirstDowns;
-              teamStats["turnovers"] = data[i].Giveaways;
-              teamStats["passingYards"] =data[i].PassingYards;
-              teamStats["penalties"] = data[i].Penalties;
-              teamStats["sacks"] = data[i].Sacks;
-          }       
+    var teamName = [];
+
+    for (var i = 0; i < data.length; i++) {
+      if (team === "") {
+        if (data[i].Team === "BUF") {
+          teamName.push(data[i].TeamName);
+          teamStats["pointsFor"] = data[i].Score / 16;
+          teamStats["pointsAgainst"] = data[i].OpponentScore / 16;
+          teamStats["touchdowns"] = data[i].Touchdowns;
+          teamStats["recYardsPerGame"] = data[i].PassingYards / 16;
+          teamStats["rushYardsPerGame"] = data[i].RushingYards / 16;
+          teamStats["fumbles"] = data[i].Fumbles;
+          teamStats["completions"] = data[i].CompletionPercentage;
+          teamStats["firtsDowns"] = data[i].FirstDowns;
+          teamStats["turnovers"] = data[i].Giveaways;
+          teamStats["passingYards"] = data[i].PassingYards;
+          teamStats["penalties"] = data[i].Penalties;
+          teamStats["sacks"] = data[i].Sacks;
+        }
+      } else {
+        if (data[i].Team === team) {
+          teamName.push(data[i].TeamName);
+          teamStats["pointsFor"] = data[i].Score / 16;
+          teamStats["pointsAgainst"] = data[i].OpponentScore / 16;
+          teamStats["touchdowns"] = data[i].Touchdowns;
+          teamStats["recYardsPerGame"] = data[i].PassingYards / 16;
+          teamStats["rushYardsPerGame"] = data[i].RushingYards / 16;
+          teamStats["fumbles"] = data[i].Fumbles;
+          teamStats["completions"] = data[i].CompletionPercentage;
+          teamStats["firtsDowns"] = data[i].FirstDowns;
+          teamStats["turnovers"] = data[i].Giveaways;
+          teamStats["passingYards"] = data[i].PassingYards;
+          teamStats["penalties"] = data[i].Penalties;
+          teamStats["sacks"] = data[i].Sacks;
+        };
       };
+    };
 
-      // arrays to hold each team stats to calculate the total for the league
-      var leaguePoints = [];
-      var leaguePointsAgainst = [];
-      var leaguetouchdowns = [];
-      var leaguerecYardsPerGame = [];
-      var leaguerushYardsPerGame = [];
-      var leaguefumbles = [];
-      var leaguecompletions = [];
-      var leaguefirtsDowns = [];
-      var leagueturnovers = [];
-      var leaguepassingYards = [];
-      var leaguepenalties = [];
-      var leaguesacks = [];
+    // console.log(teamName)
 
-      // loop through each team to get data and push to empty arrays above
-      data.forEach(function(d) {
-          leaguePoints.push(d.Score/16);
-          leaguePointsAgainst.push(d.OpponentScore/16);
-          leaguetouchdowns.push(d.Touchdowns);
-          leaguerecYardsPerGame.push(d.PassingYards/16);
-          leaguerushYardsPerGame.push(d.RushingYards/16);
-          leaguefumbles.push(d.Fumbles);
-          leaguecompletions.push(d.CompletionPercentage);
-          leaguefirtsDowns.push(d.FirstDowns);
-          leagueturnovers.push(d.Giveaways);
-          leaguepassingYards.push(d.PassingYards);
-          leaguepenalties.push(d.Penalties);
-          leaguesacks.push(d.Sacks);
-      });
+    // arrays to hold each team stats to calculate the total for the league
+    var leaguePoints = [];
+    var leaguePointsAgainst = [];
+    var leaguetouchdowns = [];
+    var leaguerecYardsPerGame = [];
+    var leaguerushYardsPerGame = [];
+    var leaguefumbles = [];
+    var leaguecompletions = [];
+    var leaguefirtsDowns = [];
+    var leagueturnovers = [];
+    var leaguepassingYards = [];
+    var leaguepenalties = [];
+    var leaguesacks = [];
 
-      // define variables for totals
-      var totalPoints = 0;
-      var totalOpp = 0;
-      var totalTouchdowns = 0;
-      var totalrec = 0;
-      var totalrush = 0;
-      var totalfumbles = 0;
-      var totalcompletion = 0;
-      var totalfirstdown = 0;
-      var totalturnover = 0;
-      var totalpassing = 0;
-      var totalpenalties = 0;
-      var totalsacks = 0;
+    // loop through each team to get data and push to empty arrays above
+    data.forEach(function (d) {
+      leaguePoints.push(d.Score / 16);
+      leaguePointsAgainst.push(d.OpponentScore / 16);
+      leaguetouchdowns.push(d.Touchdowns);
+      leaguerecYardsPerGame.push(d.PassingYards / 16);
+      leaguerushYardsPerGame.push(d.RushingYards / 16);
+      leaguefumbles.push(d.Fumbles);
+      leaguecompletions.push(d.CompletionPercentage);
+      leaguefirtsDowns.push(d.FirstDowns);
+      leagueturnovers.push(d.Giveaways);
+      leaguepassingYards.push(d.PassingYards);
+      leaguepenalties.push(d.Penalties);
+      leaguesacks.push(d.Sacks);
+    });
 
-      // loop through each array from above and get totals
-      for (var k = 0; k<leaguePoints.length; k++) {
-          // console.log(leaguePoints[k])
-          totalPoints += leaguePoints[k];
-          totalOpp += leaguePointsAgainst[k];
-          totalTouchdowns += leaguetouchdowns[k];
-          totalrec += leaguerecYardsPerGame[k];
-          totalrush += leaguerushYardsPerGame[k];
-          totalfumbles += leaguefumbles[k];
-          totalcompletion += leaguecompletions[k];
-          totalfirstdown += leaguefirtsDowns[k];
-          totalturnover += leagueturnovers[k];
-          totalpassing += leaguepassingYards[k];
-          totalpenalties += leaguepenalties[k];
-          totalsacks += leaguesacks[k];
-              
-      };
-      
-      // append league averages to leagueStats Object for visualization below
-      leagueStats["pointsFor"] = totalPoints/32;
-      leagueStats["pointsAgainst"] = totalOpp/32;
-      leagueStats["touchdowns"] = totalTouchdowns/32;
-      leagueStats["recYardsPerGame"] = totalrec/32;
-      leagueStats["rushYardsPerGame"] = totalrush/32;
-      leagueStats["fumbles"] = totalfumbles/32;
-      leagueStats["completions"] = totalcompletion/32;
-      leagueStats["firtsDowns"] = totalfirstdown/32;
-      leagueStats["turnovers"] = totalturnover/32;
-      leagueStats["passingYards"] = totalpassing/32;
-      leagueStats["penalties"] = totalpenalties/32;
-      leagueStats["sacks"] = totalsacks/32;
+    // define variables for totals
+    var totalPoints = 0;
+    var totalOpp = 0;
+    var totalTouchdowns = 0;
+    var totalrec = 0;
+    var totalrush = 0;
+    var totalfumbles = 0;
+    var totalcompletion = 0;
+    var totalfirstdown = 0;
+    var totalturnover = 0;
+    var totalpassing = 0;
+    var totalpenalties = 0;
+    var totalsacks = 0;
 
-          
-    console.log(teamStats);
-    console.log(Object.values(teamStats));
+    // loop through each array from above and get totals
+    for (var k = 0; k < leaguePoints.length; k++) {
+      // console.log(leaguePoints[k])
+      totalPoints += leaguePoints[k];
+      totalOpp += leaguePointsAgainst[k];
+      totalTouchdowns += leaguetouchdowns[k];
+      totalrec += leaguerecYardsPerGame[k];
+      totalrush += leaguerushYardsPerGame[k];
+      totalfumbles += leaguefumbles[k];
+      totalcompletion += leaguecompletions[k];
+      totalfirstdown += leaguefirtsDowns[k];
+      totalturnover += leagueturnovers[k];
+      totalpassing += leaguepassingYards[k];
+      totalpenalties += leaguepenalties[k];
+      totalsacks += leaguesacks[k];
+
+    };
+
+    // append league averages to leagueStats Object for visualization below
+    leagueStats["pointsFor"] = totalPoints / 32;
+    leagueStats["pointsAgainst"] = totalOpp / 32;
+    leagueStats["touchdowns"] = totalTouchdowns / 32;
+    leagueStats["recYardsPerGame"] = totalrec / 32;
+    leagueStats["rushYardsPerGame"] = totalrush / 32;
+    leagueStats["fumbles"] = totalfumbles / 32;
+    leagueStats["completions"] = totalcompletion / 32;
+    leagueStats["firtsDowns"] = totalfirstdown / 32;
+    leagueStats["turnovers"] = totalturnover / 32;
+    leagueStats["passingYards"] = totalpassing / 32;
+    leagueStats["penalties"] = totalpenalties / 32;
+    leagueStats["sacks"] = totalsacks / 32;
+
+
+    // console.log(teamStats);
+    // console.log(Object.values(teamStats));
+
+    // console.log(leagueStats);
+    // console.log(Object.values(leagueStats));
+
+  chartGroup.append("text")
+    .attr("x", (width / 4))             
+    .attr("y", 30-margin.top)
+    .classed("title-text", true)
+    .attr("text-anchor", "middle")  
+    .style("font-size", "22px")    
+    .text(teamName[0]);
+
+    // define xscales for axis
+    var xScale = d3.scaleLinear()
+      .domain([0, 100])
+      .range([width / 2, 0]);
+
+    var xScale2 = d3.scaleLinear()
+      .domain([0, 100])
+      .range([0, width / 2]);
+
+    var middleScale = d3.scaleLinear()
+      .domain(Object.keys(teamStats))
+      .range([0, width / 2]);
+
+    var bottomAxis = d3.axisBottom(xScale);
+    var middleAxis = d3.axisRight(middleScale);
+    var bottomRight = d3.axisBottom(xScale2);
+
+    chartGroup.append("g")
+      .attr("transform", `translate(0, ${height - 5})`)
+      .call(bottomAxis);
+
+    chartGroup.append("g")
+      .attr("transform", `translate(${width / 2}, ${height - 5})`)
+      .call(bottomRight);
+
+    chartGroup.append("g")
+      .attr("transform", `translate(${width / 2},0)`)
+      .call(middleAxis);
+
     
-    console.log(leagueStats);    
-    console.log(Object.values(leagueStats));
 
-      // define xscales for axis
-      var xScale = d3.scaleLinear()
-          .domain([0, 100])
-          .range([width/2,0]);
-          
-      var xScale2 = d3.scaleLinear()
-          .domain([0, 100])
-          .range([0, width/2]);
-
-      var middleScale = d3.scaleLinear()
-          .domain(Object.keys(teamStats))
-          .range([0, width/2]);
-
-      var bottomAxis = d3.axisBottom(xScale);
-      var middleAxis = d3.axisRight(middleScale);
-      var bottomRight = d3.axisBottom(xScale2);
-
-      chartGroup.append("g")
-          .attr("transform", `translate(0, ${height-5})`)
-          .call(bottomAxis);
-
-        chartGroup.append("g")
-          .attr("transform", `translate(${width/2}, ${height-5})`)
-          .call(bottomRight);      
-
-      chartGroup.append("g")
-          .attr("transform", `translate(${width/2},0)`)
-          .call(middleAxis);
-
-      // create individual bars based on data from teamStats and leagueStats
-      //Team Stat Bars - Left side
-      var touchdowns = chartGroup.selectAll(".bar1")
-          .data(Object.values(teamStats))
-          .enter()
-          .append("rect")
-          .attr("class", "bar")
-          .attr("y", 0)
-          .attr("x", (width/2)-(Object.values(teamStats)[2]*(400))/100)       
-          .attr("width", (Object.values(teamStats)[2]*(400))/100)
-          .attr("height", 30)
-          .style("opacity", .2)
-          .style("fill",getTeamColor(team));
+    // create individual bars based on data from teamStats and leagueStats
+    //Team Stat Bars - Left side
+    var touchdowns = chartGroup.selectAll(".bar1")
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 0)
+      .attr("x", (width / 2) - (Object.values(teamStats)[2] * (400)) / 100)
+      .attr("width", (Object.values(teamStats)[2] * (400)) / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var passing = chartGroup.selectAll(".bar2")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 35)
-        .attr("x", (width/2)-(Object.values(teamStats)[9]*400)/10000)   
-        .attr("width", (Object.values(teamStats)[9]*400)/10000)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 35)
+      .attr("x", (width / 2) - (Object.values(teamStats)[9] * 400) / 10000)
+      .attr("width", (Object.values(teamStats)[9] * 400) / 10000)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var completions = chartGroup.selectAll(".bar3")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 70)
-        .attr("x", (width/2)-(Object.values(teamStats)[6]*400)/100)       
-        .attr("width", (Object.values(teamStats)[6]*400)/100)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 70)
+      .attr("x", (width / 2) - (Object.values(teamStats)[6] * 400) / 100)
+      .attr("width", (Object.values(teamStats)[6] * 400) / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var rushing = chartGroup.selectAll(".bar4")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 105)
-        .attr("x", (width/2)-(Object.values(teamStats)[4]*400/150))       
-        .attr("width", Object.values(teamStats)[4]*400/150)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 105)
+      .attr("x", (width / 2) - (Object.values(teamStats)[4] * 400 / 180))
+      .attr("width", Object.values(teamStats)[4] * 400 / 180)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var receiving = chartGroup.selectAll(".bar5")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 140)
-        .attr("x", (width/2)-(Object.values(teamStats)[3]*400/500))       
-        .attr("width", Object.values(teamStats)[3]*400/500)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 140)
+      .attr("x", (width / 2) - (Object.values(teamStats)[3] * 400 / 500))
+      .attr("width", Object.values(teamStats)[3] * 400 / 500)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var forPoints = chartGroup.selectAll(".bar6")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 175)
-        .attr("x", (width/2)-(Object.values(teamStats)[0]*400/40))       
-        .attr("width", Object.values(teamStats)[0]*400/40)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 175)
+      .attr("x", (width / 2) - (Object.values(teamStats)[0] * 400 / 40))
+      .attr("width", Object.values(teamStats)[0] * 400 / 40)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var downs = chartGroup.selectAll(".bar7")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 210)
-        .attr("x", (width/2)-(Object.values(teamStats)[7]*400/600))       
-        .attr("width", Object.values(teamStats)[7]*400/600)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 210)
+      .attr("x", (width / 2) - (Object.values(teamStats)[7] * 400 / 600))
+      .attr("width", Object.values(teamStats)[7] * 400 / 600)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var fumble = chartGroup.selectAll(".bar8")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 245)
-        .attr("x", (width/2)-(Object.values(teamStats)[5]*400/50))       
-        .attr("width", Object.values(teamStats)[5]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 245)
+      .attr("x", (width / 2) - (Object.values(teamStats)[5] * 400 / 50))
+      .attr("width", Object.values(teamStats)[5] * 400 / 50)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var turnovers = chartGroup.selectAll(".bar9")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 280)
-        .attr("x", (width/2)-(Object.values(teamStats)[8]*400/50))       
-        .attr("width", Object.values(teamStats)[8]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 280)
+      .attr("x", (width / 2) - (Object.values(teamStats)[8] * 400 / 50))
+      .attr("width", Object.values(teamStats)[8] * 400 / 50)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var penalty = chartGroup.selectAll(".bar10")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 315)
-        .attr("x", (width/2)-(Object.values(teamStats)[10]*400/150))       
-        .attr("width", Object.values(teamStats)[10]*400/150)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 315)
+      .attr("x", (width / 2) - (Object.values(teamStats)[10] * 400 / 150))
+      .attr("width", Object.values(teamStats)[10] * 400 / 150)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var sack = chartGroup.selectAll(".bar11")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 350)
-        .attr("x", (width/2)-(Object.values(teamStats)[11]*400/50))      
-        .attr("width", Object.values(teamStats)[11]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 350)
+      .attr("x", (width / 2) - (Object.values(teamStats)[11] * 400 / 100))
+      .attr("width", Object.values(teamStats)[11] * 400 / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
 
     var oppPoints = chartGroup.selectAll(".bar12")
-        .data(Object.values(teamStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 385)
-        .attr("x", (width/2)-(Object.values(teamStats)[1]*400/40))       
-        .attr("width", Object.values(teamStats)[1]*400/40)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill",getTeamColor(team));
-    
+      .data(Object.values(teamStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 385)
+      .attr("x", (width / 2) - (Object.values(teamStats)[1] * 400 / 40))
+      .attr("width", Object.values(teamStats)[1] * 400 / 40)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", getTeamColor(team));
+
     // Left Bar End
 
 
     // League Stat Bars - Right side
     var NFLtouchdowns = chartGroup.selectAll(".bar13")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 0)
-        .attr("x", width/2 + 5)       
-        .attr("width", (Object.values(leagueStats)[2]*(400))/100)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 0)
+      .attr("x", width / 2 + 5)
+      .attr("width", (Object.values(leagueStats)[2] * (400)) / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLpassing = chartGroup.selectAll(".bar14")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 35)
-        .attr("x", width/2 + 5)     
-        .attr("width", (Object.values(leagueStats)[9]*400)/10000)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 35)
+      .attr("x", width / 2 + 5)
+      .attr("width", (Object.values(leagueStats)[9] * 400) / 10000)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLcompletions = chartGroup.selectAll(".bar15")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 70)
-        .attr("x", width/2 + 5)       
-        .attr("width", (Object.values(leagueStats)[6]*400)/100)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 70)
+      .attr("x", width / 2 + 5)
+      .attr("width", (Object.values(leagueStats)[6] * 400) / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLrushing = chartGroup.selectAll(".bar16")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 105)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[4]*400/150)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 105)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[4] * 400 / 180)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLreceiving = chartGroup.selectAll(".bar17")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 140)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[3]*400/500)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 140)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[3] * 400 / 500)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLforPoints = chartGroup.selectAll(".bar18")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 175)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[0]*400/40)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 175)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[0] * 400 / 40)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLdowns = chartGroup.selectAll(".bar19")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 210)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[7]*400/600)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 210)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[7] * 400 / 600)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLfumble = chartGroup.selectAll(".bar20")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 245)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[5]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 245)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[5] * 400 / 50)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLturnovers = chartGroup.selectAll(".bar21")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 280)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[8]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 280)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[8] * 400 / 50)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLpenalty = chartGroup.selectAll(".bar22")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 315)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[10]*400/150)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 315)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[10] * 400 / 150)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLsack = chartGroup.selectAll(".bar23")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 350)
-        .attr("x", width/2 + 5)      
-        .attr("width", Object.values(leagueStats)[11]*400/50)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 350)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[11] * 400 / 100)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
     var NFLoppPoints = chartGroup.selectAll(".bar24")
-        .data(Object.values(leagueStats))
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("y", 385)
-        .attr("x", width/2 + 5)       
-        .attr("width", Object.values(leagueStats)[1]*400/40)
-        .attr("height", 30)
-        .style("opacity", .2)
-        .style("fill","grey");
+      .data(Object.values(leagueStats))
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("y", 385)
+      .attr("x", width / 2 + 5)
+      .attr("width", Object.values(leagueStats)[1] * 400 / 40)
+      .attr("height", 30)
+      .style("opacity", .2)
+      .style("fill", "grey");
 
-      // Right Bar End
+    // Right Bar End
   });
 
 };
@@ -552,7 +573,7 @@ function createBar(team) {
 
 // Mike Tyburczy Bubble Graph - Beginning
 
-var w = 1500, h = 500;
+var w = 1200, h = 500;
     
 var radius = 25;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
