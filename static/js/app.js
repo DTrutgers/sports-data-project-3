@@ -86,6 +86,7 @@ function createBar(team) {
 
   var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
 
   chartGroup.append("text")
     .attr("x", (width / 2) + (width/4))             
@@ -281,6 +282,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 22.5)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Touchdowns - ${Object.values(teamStats)[2]}`);
+
     var passing = chartGroup.selectAll(".bar2")
       .data(Object.values(teamStats))
       .enter()
@@ -292,6 +302,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 55)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Passing Yards - ${Object.values(teamStats)[9]}`);
 
     var completions = chartGroup.selectAll(".bar3")
       .data(Object.values(teamStats))
@@ -305,6 +324,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 90)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Completion % - ${Object.values(teamStats)[6]}`);
+
     var rushing = chartGroup.selectAll(".bar4")
       .data(Object.values(teamStats))
       .enter()
@@ -316,6 +344,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 125)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Rushing Per Game - ${Object.values(teamStats)[4].toFixed(1)}`);
 
     var receiving = chartGroup.selectAll(".bar5")
       .data(Object.values(teamStats))
@@ -329,6 +366,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 160)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Rec. Yards per Game - ${Object.values(teamStats)[3].toFixed(1)}`);
+
     var forPoints = chartGroup.selectAll(".bar6")
       .data(Object.values(teamStats))
       .enter()
@@ -340,6 +386,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 195)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Points Per Game - ${Object.values(teamStats)[0].toFixed(1)}`);
 
     var downs = chartGroup.selectAll(".bar7")
       .data(Object.values(teamStats))
@@ -353,6 +408,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 232.5)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Total Firstdowns - ${Object.values(teamStats)[7]}`);
+
     var fumble = chartGroup.selectAll(".bar8")
       .data(Object.values(teamStats))
       .enter()
@@ -364,6 +428,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 265)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Total Fumbles - ${Object.values(teamStats)[5]}`);
 
     var turnovers = chartGroup.selectAll(".bar9")
       .data(Object.values(teamStats))
@@ -377,6 +450,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 300)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Turnovers - ${Object.values(teamStats)[8]}`);
+
     var penalty = chartGroup.selectAll(".bar10")
       .data(Object.values(teamStats))
       .enter()
@@ -388,6 +470,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 335)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Penalties - ${Object.values(teamStats)[10]}`);
 
     var sack = chartGroup.selectAll(".bar11")
       .data(Object.values(teamStats))
@@ -401,6 +492,15 @@ function createBar(team) {
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
 
+    chartGroup.append("text")
+      .attr("x", (width/4)-10)             
+      .attr("y", 370)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Sacks - ${Object.values(teamStats)[11]}`);
+
     var oppPoints = chartGroup.selectAll(".bar12")
       .data(Object.values(teamStats))
       .enter()
@@ -412,6 +512,15 @@ function createBar(team) {
       .attr("height", 30)
       .style("opacity", .2)
       .style("fill", getTeamColor(team));
+
+    chartGroup.append("text")
+      .attr("x", (width/4))             
+      .attr("y", 405)
+      .classed("title-text", true)
+      .attr("text-anchor", "middle")
+      .style("fill", "white")
+      .style("font-size", "20px")    
+      .text(`Points Against - ${Object.values(teamStats)[1].toFixed(1)}`);
 
     // Left Bar End
 
@@ -427,7 +536,7 @@ function createBar(team) {
       .attr("width", (Object.values(leagueStats)[2] * (400)) / 100)
       .attr("height", 30)
       .style("opacity", .2)
-      .style("fill", "grey");
+      .style("fill", "silver");
 
     var NFLpassing = chartGroup.selectAll(".bar14")
       .data(Object.values(leagueStats))
