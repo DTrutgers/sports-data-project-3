@@ -918,7 +918,7 @@ var forceStrength = 0.05;
 
 var svg = d3.select("#mike-graph").append("svg")
   .attr("width", w)
-  .attr("height", h)
+  .attr("height", h);
 
 var simulation = d3.forceSimulation()
         .force("collide",d3.forceCollide( function(d){
@@ -1085,7 +1085,7 @@ d3.csv("./static/data/2020_season_stats_con.csv", function(data){
         .attr('x', function (d) { return scale(d); })
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text(function (d) { return byVar + ' ' + d; });
+        .text(function (d) { return d; });
     
     titles.exit().remove() 
   }

@@ -153,6 +153,8 @@ svg {
 }
 .title {
     font-family: 'Freshman', sans-serif;
+    font-size: 18px;
+    margin: 5px;
   }
 .button.active {
     background: #000;
