@@ -27,10 +27,11 @@
 /* Overview Container */
 #overview-container {
     background-image: url("../images/14791130_G.webp");
+    background-color: black;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: auto;
+    background-position-y: 0;
     height: 450px;
 }
 
