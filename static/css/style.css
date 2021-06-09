@@ -31,7 +31,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: 0;
+    background-position-y: -100px;
     height: 450px;
 }
 
