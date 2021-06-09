@@ -30,8 +30,8 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: -500px;
-    height: 350px;
+    background-position-y: auto;
+    height: 450px;
 }
 
 #overview-container p {
