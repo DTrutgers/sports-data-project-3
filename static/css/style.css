@@ -26,7 +26,7 @@
 
 /* Overview Container */
 #overview-container {
-    background-image: url("/static/images/14791130_G.webp");
+    background-image: url("./static/images/14791130_G.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
